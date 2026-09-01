@@ -12,68 +12,110 @@ const PRICING = {
     },
     'BINUS University (Indonesia)': {
         online: {
-            presenter: { rm: 900, usd: 200 },
+            presenter: { rm: 800, usd: 200 },
             nonPresenter: { rm: 0, usd: 0 },
         },
         physical: {
-            presenter: { rm: 900, usd: 200 },
+            presenter: { rm: 800, usd: 200 },
             nonPresenter: { rm: 0, usd: 0 }
-        }
-    },
-    'Mindanao State University (Philippines)': {
-        online: {
-            presenter: { rm: 1200, usd: 260 },
-            nonPresenter: { rm: 0, usd: 0 }
-        },
-        physical: {
-            presenter: { rm: 1200, usd: 260 },
-            nonPresenter: { rm: 300, usd: 70 }
-        }
-    },
-    'Sri Lanka Technology Campus (Sri Lanka)': {
-        online: {
-            presenter: { rm: 1200, usd: 260 },
-            nonPresenter: { rm: 0, usd: 0 }
-        },
-        physical: {
-            presenter: { rm: 1200, usd: 260 },
-            nonPresenter: { rm: 300, usd: 70 }
         }
     },
     'Universitas Diponegoro (UNDIP) (Indonesia)': {
         online: {
-            presenter: { rm: 1200, usd: 260 },
+            presenter: { rm: 1040, usd: 260 },
             nonPresenter: { rm: 0, usd: 0 }
         },
         physical: {
-            presenter: { rm: 1200, usd: 260 },
-            nonPresenter: { rm: 300, usd: 70 }
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 280, usd: 70 }
+        }
+    },
+    'Poornima University (India)': {
+        online: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 0, usd: 0 }
+        },
+        physical: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 280, usd: 70 }
+        }
+    },
+    'Suranaree University of Technology (Thailand)': {
+        online: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 0, usd: 0 }
+        },
+        physical: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 280, usd: 70 }
+        }
+    },
+    'Atlantic Technological University (ATU) (Ireland)': {
+        online: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 0, usd: 0 }
+        },
+        physical: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 280, usd: 70 }
+        }
+    },
+    'Mindanao State University (MSU) (Philippines)': {
+        online: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 0, usd: 0 }
+        },
+        physical: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 280, usd: 70 }
+        }
+    },
+    'Adamson University (AdU) (Philippines)': {
+        online: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 0, usd: 0 }
+        },
+        physical: {
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 280, usd: 70 }
         }
     },
     'Multimedia University (Malaysia)': {
         online: {
-            presenter: { rm: 1200, usd: 260 },
+            presenter: { rm: 1040, usd: 260 },
             nonPresenter: { rm: 0, usd: 0 }
         },
         physical: {
-            presenter: { rm: 1200, usd: 260 },
-            nonPresenter: { rm: 300, usd: 70 }
+            presenter: { rm: 1040, usd: 260 },
+            nonPresenter: { rm: 280, usd: 70 }
         }
     },
     'Other': {
         online: {
             presenter: {
-                professional: { rm: 1800, usd: 400 },
-                student: { rm: 1500, usd: 330 }
+                nonIEEE: {
+                    professional: { rm: 1600, usd: 400 },
+                    student: { rm: 1360, usd: 340 }
+                },
+                ieee: {
+                    professional: { rm: 1280, usd: 320 },
+                    student: { rm: 1088, usd: 272 }
+                }
             },
             nonPresenter: { rm: 0, usd: 0 }
         },
         physical: {
             presenter: {
-                professional: { rm: 1800, usd: 400 },
-                student: { rm: 1500, usd: 330 }
+                nonIEEE: {
+                    professional: { rm: 1600, usd: 400 },
+                    student: { rm: 1360, usd: 340 }
+                },
+                ieee: {
+                    professional: { rm: 1280, usd: 320 },
+                    student: { rm: 1088, usd: 272 }
+                }
             },
-            nonPresenter: { rm: 300, usd: 70 }
+            nonPresenter: { rm: 280, usd: 70 }
         }
     }
 };
@@ -147,6 +189,9 @@ function toggleOtherOrganisation() {
             nonPresenterOption.disabled = false;
         }
     }
+
+    // Reset IEEE member field when organisation changes
+    toggleIeeeField();
 
     // Calculate price when organization changes
     calculatePrice();
@@ -267,7 +312,46 @@ function togglePresenterFields() {
     }
 
     toggleDietaryFields();
+    toggleIeeeField();
     // Calculate price when presenter type changes
+    calculatePrice();
+}
+
+function toggleIeeeField() {
+    const organisation = document.getElementById('organisation').value;
+    const presenterType = document.getElementById('presenterType').value;
+    const ieeeDiv = document.getElementById('ieeeDiv');
+    const ieeeSelect = document.getElementById('ieeeMember');
+
+    // Only relevant for "Other" institutions (excludes host & co-host) that are Presenters
+    if (organisation === 'Other' && presenterType === 'Presenter') {
+        ieeeDiv.classList.remove('hidden');
+        ieeeSelect.required = true;
+    } else {
+        ieeeDiv.classList.add('hidden');
+        ieeeSelect.required = false;
+        ieeeSelect.value = '';
+    }
+
+    // Keep the IEEE member number field in sync
+    toggleIeeeNumberField();
+}
+
+function toggleIeeeNumberField() {
+    const ieeeMember = document.getElementById('ieeeMember').value;
+    const ieeeNumberDiv = document.getElementById('ieeeNumberDiv');
+    const ieeeNumberInput = document.getElementById('ieeeNumber');
+
+    if (ieeeMember === 'Yes') {
+        ieeeNumberDiv.classList.remove('hidden');
+        ieeeNumberInput.required = true;
+    } else {
+        ieeeNumberDiv.classList.add('hidden');
+        ieeeNumberInput.required = false;
+        ieeeNumberInput.value = '';
+    }
+
+    // Recalculate price whenever IEEE status changes
     calculatePrice();
 }
 
@@ -313,6 +397,7 @@ function calculatePrice() {
     const presenterType = document.getElementById('presenterType').value;
     const participantType = document.getElementById('participantType').value;
     const country = document.getElementById('country').value;
+    const ieeeMember = document.getElementById('ieeeMember') ? document.getElementById('ieeeMember').value : '';
     const pricingDiv = document.getElementById('pricingDiv');
     const registerBtn = document.getElementById('registerBtn');
     const paymentBtn = document.getElementById('paymentBtn');
@@ -322,7 +407,8 @@ function calculatePrice() {
         organisation,
         presenterType,
         participantType,
-        country
+        country,
+        ieeeMember
     });
     
     // Get the pricing for the selected organisation
@@ -334,11 +420,12 @@ function calculatePrice() {
     if (attendanceMode === 'Online') {
         if (presenterType === 'Presenter') {
             if (organisation === 'Other') {
+                const tier = ieeeMember === 'Yes' ? orgPricing.online.presenter.ieee : orgPricing.online.presenter.nonIEEE;
                 if (participantType === 'Professional') {
-                    price = orgPricing.online.presenter.professional; // RM1800/USD400
+                    price = tier.professional;
                     console.log('Setting professional price:', price);
                 } else if (participantType === 'Student') {
-                    price = orgPricing.online.presenter.student; // RM1500/USD330
+                    price = tier.student;
                     console.log('Setting student price:', price);
                 }
             } else if (organisation === 'Tunku Abdul Rahman University of Management and Technology (Malaysia)') {
@@ -355,10 +442,11 @@ function calculatePrice() {
     } else {
         if (presenterType === 'Presenter') {
             if (organisation === 'Other') {
+                const tier = ieeeMember === 'Yes' ? orgPricing.physical.presenter.ieee : orgPricing.physical.presenter.nonIEEE;
                 if (participantType === 'Professional') {
-                    price = orgPricing.physical.presenter.professional;
+                    price = tier.professional;
                 } else if (participantType === 'Student') {
-                    price = orgPricing.physical.presenter.student;
+                    price = tier.student;
                 }
             } else {
                 // For all other institutions' physical presenters
@@ -372,6 +460,14 @@ function calculatePrice() {
 
     // Show/hide pricing div based on conditions
     if (!organisation || !presenterType) {
+        pricingDiv.classList.add('hidden');
+        registerBtn.classList.remove('hidden');
+        paymentBtn.classList.add('hidden');
+        return;
+    }
+
+    // For "Other" institutions' presenters, wait until participant type and IEEE status are chosen
+    if (organisation === 'Other' && presenterType === 'Presenter' && (!participantType || !ieeeMember)) {
         pricingDiv.classList.add('hidden');
         registerBtn.classList.remove('hidden');
         paymentBtn.classList.add('hidden');
@@ -459,6 +555,16 @@ function handleSubmit(event) {
                     alert('Please fill in all paper information fields.');
                     return;
                 }
+
+                if (organisation === 'Other' && !document.getElementById('ieeeMember').value) {
+                    alert('Please select whether you are an IEEE member.');
+                    return;
+                }
+
+                if (organisation === 'Other' && document.getElementById('ieeeMember').value === 'Yes' && !document.getElementById('ieeeNumber').value) {
+                    alert('Please enter your IEEE Member No.');
+                    return;
+                }
             }
         }
     }
@@ -478,6 +584,8 @@ function handleSubmit(event) {
         document.getElementById('otherDietaryDiv').classList.add('hidden');
         document.getElementById('paperInfoDiv').classList.add('hidden');
         document.getElementById('participantTypeDiv').classList.add('hidden');
+        document.getElementById('ieeeDiv').classList.add('hidden');
+        document.getElementById('ieeeNumberDiv').classList.add('hidden');
         document.getElementById('pricingDiv').classList.add('hidden');
         // Reset buttons
         document.getElementById('registerBtn').classList.remove('hidden');
@@ -523,6 +631,7 @@ function handlePayment(event) {
             const paperId = document.getElementById('paperId').value;
             const paperTitle = document.getElementById('paperTitle').value;
             const certificateName = document.getElementById('certificateName').value;
+            const organisation = document.getElementById('organisation').value;
 
             if (!participantType) {
                 alert('Please fill in all required fields for physical attendance.');
@@ -531,6 +640,16 @@ function handlePayment(event) {
 
             if (!paperId || !paperTitle || !certificateName) {
                 alert('Please fill in all paper information fields.');
+                return;
+            }
+
+            if (organisation === 'Other' && !document.getElementById('ieeeMember').value) {
+                alert('Please select whether you are an IEEE member.');
+                return;
+            }
+
+            if (organisation === 'Other' && document.getElementById('ieeeMember').value === 'Yes' && !document.getElementById('ieeeNumber').value) {
+                alert('Please enter your IEEE Member No.');
                 return;
             }
         }
@@ -639,6 +758,8 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('otherDietaryDiv').classList.add('hidden');
             document.getElementById('paperInfoDiv').classList.add('hidden');
             document.getElementById('participantTypeDiv').classList.add('hidden');
+            document.getElementById('ieeeDiv').classList.add('hidden');
+            document.getElementById('ieeeNumberDiv').classList.add('hidden');
             document.getElementById('pricingDiv').classList.add('hidden');
 
             // Reset buttons
@@ -707,4 +828,4 @@ function handleDrop(e) {
         document.getElementById('fileInput').files = dt.files;
         displayFileInfo(file);
     }
-} 
+}

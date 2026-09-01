@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ICDXA2025 Registration</title>
-    <link rel="icon" type="image/png" href="src/img/ICDXA2025_LOGO_WO_ICDXA.png">
-    <link rel="apple-touch-icon" href="src/img/ICDXA2025_LOGO_WO_ICDXA.png">
+    <title>ICDXA2026 Registration</title>
+    <link rel="icon" type="image/png" href="src/img/ICDXA2026_LOGO_WO_ICDXA.png">
+    <link rel="apple-touch-icon" href="src/img/ICDXA2026_LOGO_WO_ICDXA.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -28,6 +28,8 @@
                 document.getElementById('otherDietaryDiv').classList.add('hidden');
                 document.getElementById('paperInfoDiv').classList.add('hidden');
                 document.getElementById('participantTypeDiv').classList.add('hidden');
+                document.getElementById('ieeeDiv').classList.add('hidden');
+                document.getElementById('ieeeNumberDiv').classList.add('hidden');
                 document.getElementById('pricingDiv').classList.add('hidden');
                 
                 // Reset buttons
@@ -45,8 +47,8 @@
     <header class="custom-header">
         <div class="container d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
-                <img src="src/img/ICDXA2025_LOGO_WO_ICDXA.png" alt="ICDXA Logo" class="logo">
-                <h1 class="page-title ms-3">ICDXA 2025 Registration</h1>
+                <img src="src/img/ICDXA2026_LOGO_WO_ICDXA.png" alt="ICDXA Logo" class="logo">
+                <h1 class="page-title ms-3">ICDXA 2026 Registration</h1>
             </div>
         </div>
     </header>
@@ -113,11 +115,14 @@
                 <select class="form-select" id="organisation" onchange="toggleOtherOrganisation()" required>
                     <option value="">Select Organisation</option>
                     <option data-country="Malaysia">Tunku Abdul Rahman University of Management and Technology (Malaysia)</option>
-                    <option data-country="Non-Malaysia">BINUS University (Indonesia)</option>
-                    <option data-country="Non-Malaysia">Mindanao State University (Philippines)</option>
-                    <option data-country="Non-Malaysia">Sri Lanka Technology Campus (Sri Lanka)</option>
-                    <option data-country="Non-Malaysia">Universitas Diponegoro (UNDIP) (Indonesia)</option>
                     <option data-country="Malaysia">Multimedia University (Malaysia)</option>
+                    <option data-country="Non-Malaysia">BINUS University (Indonesia)</option>
+                    <option data-country="Non-Malaysia">Universitas Diponegoro (UNDIP) (Indonesia)</option>
+                    <option data-country="Non-Malaysia">Poornima University (India)</option>
+                    <option data-country="Non-Malaysia">Suranaree University of Technology (Thailand)</option>
+                    <option data-country="Non-Malaysia">Atlantic Technological University (ATU) (Ireland)</option>
+                    <option data-country="Non-Malaysia">Mindanao State University (MSU) (Philippines)</option>
+                    <option data-country="Non-Malaysia">Adamson University (AdU) (Philippines)</option>
                     <option value="Other" data-country="both">Other</option>
                 </select>
             </div>
@@ -158,6 +163,22 @@
                         <option value="Professional">Professional</option>
                         <option value="Student">Student</option>
                     </select>
+                </div>
+
+                <!-- IEEE Member (Only for "Other" institutions, Presenter) -->
+                <div class="mb-3 hidden" id="ieeeDiv">
+                    <label for="ieeeMember" class="form-label">Are you an IEEE Member?</label>
+                    <select class="form-select" id="ieeeMember" onchange="toggleIeeeNumberField()">
+                        <option value="">Select an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <!-- IEEE Member No. (Only if IEEE Member = Yes) -->
+                <div class="mb-3 hidden" id="ieeeNumberDiv">
+                    <label for="ieeeNumber" class="form-label">IEEE Member No.</label>
+                    <input type="text" class="form-control" id="ieeeNumber">
                 </div>
 
                 <!-- Dietary Preference -->
@@ -228,7 +249,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Thank you for registering for 4ᵗʰ International Conference on Digital Transformation and Applications (ICDXA 2025)!</p>
+                    <p>Thank you for registering for 5ᵗʰ International Conference on Digital Transformation and Applications (ICDXA 2026)!</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
